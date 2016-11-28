@@ -44,6 +44,8 @@ AsciiDoc reader           Use AsciiDoc to write your posts.
 
 Asset management          Use the Webassets module to manage assets such as CSS and JS files.
 
+Authors                   Populate ``author`` objects with custom attributes.
+
 Auto Pages                Generate custom content for generated Author, Category, and Tag pages (e.g. author biography)
 
 Backref Translate         Add a new attribute (``is_translation_of``) to every article/page (which is a translation) pointing back to the original article/page which is being translated
