@@ -136,3 +136,6 @@
 [submodule "deadlinks"]
 	path = deadlinks
 	url = https://github.com/silentlamb/pelican-deadlinks.git
+[submodule "social-meta"]
+	path = social-meta
+	url = https://github.com/velimir0xff/pelican-social-meta.git
