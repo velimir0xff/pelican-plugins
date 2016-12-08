@@ -136,3 +136,6 @@
 [submodule "pelican-ert"]
 	path = pelican-ert
 	url = https://github.com/nogaems/pelican-ert.git
+[submodule "social-meta"]
+	path = social-meta
+	url = https://github.com/velimir0xff/pelican-social-meta.git
