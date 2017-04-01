@@ -22,11 +22,15 @@ EXTRACT_TAG = re.compile(r'(?:\s*)(\S+)(?:\s*)')
 LT_CONFIG = { 'CODE_DIR': 'code',
               'NOTEBOOK_DIR': 'notebooks',
               'FLICKR_API_KEY': 'flickr',
+              'FLICKR_API_SECRET': 'gallery',
+              'FLICKR_USERNAME': 'gallery',
               'GIPHY_API_KEY': 'giphy'
 }
 LT_HELP = { 'CODE_DIR' : 'Code directory for include_code subplugin',
             'NOTEBOOK_DIR' : 'Notebook directory for notebook subplugin',
             'FLICKR_API_KEY': 'Flickr key for accessing the API',
+            'FLICKR_API_SECRET': 'Flickr secret for accessing the API',
+            'FLICKR_USERNAME': 'Flickr username which photsets are fetched',
             'GIPHY_API_KEY': 'Giphy key for accessing the API'
 }
 
