@@ -33,7 +33,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 SYNTAX = '{% gallery "photoset_title" %}'
-GALLERY_BLOCK_RE = re.compile(r'"(?P<title>[^"]+)"')
+GALLERY_BLOCK_RE = re.compile(r'"(?P<title>[^"]+)"\s*(?P<photos>\[.+\])?')
 GALLERY_HTML = """<div class="justified-gallery">{images}</div>"""
 IMAGE_LINK = """<a href="{href}" title="{title}" target="_blank">
 <img alt="{title}" src="{thumbnail}"/>
@@ -81,7 +81,9 @@ def gallery(preprocessor, tag, markup):
         raise ValueError('Error processing input. '
                          'Expected syntax: {}'.format(SYNTAX))
 
-    title = match.groupdict()['title']
+    matches = match.groupdict()
+    logger.debug('matches: %s', matches)
+    title = matches['title']
     api_key = preprocessor.configs.getConfig('FLICKR_API_KEY')
     api_secret = preprocessor.configs.getConfig('FLICKR_API_SECRET')
     flickr = flickrapi.FlickrAPI(api_key, api_secret, cache=True,
@@ -91,6 +93,9 @@ def gallery(preprocessor, tag, markup):
     user_id = get_user_id(flickr, username)
     photoset = find_photoset(flickr, user_id, title)
     photos = list_photos(flickr, user_id, photoset['id'])
+    if matches['photos']:
+        photo_names = set(i.lower() for i in eval(matches['photos']))
+        photos = filter(lambda p: p['title'].strip().lower() in photo_names, photos)
 
     return create_html(flickr, photos)
 
