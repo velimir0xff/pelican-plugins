@@ -45,10 +45,18 @@ def get_user_id(flickr, username):
 
 def find_photoset(flickr, user_id, title):
     response = flickr.photosets.getList(user_id=user_id)
-    for pset in response['photosets']['photoset']:
+    psets = list(matching_photosets(response['photosets'], title))
+    psets.sort(key=lambda it: len(it['title']['_content']))
+
+    if not psets:
+        raise ValueError('Can not find photoset with id {}'.format(title))
+
+    return psets[0]
+
+def matching_photosets(photosets, title):
+    for pset in photosets['photoset']:
         if re.search(title, pset['title']['_content'], re.IGNORECASE):
-            return pset
-    raise ValueError('Can not find photoset with id {}'.format(title))
+            yield pset
 
 def list_photos(flickr, user_id, photoset_id):
     response = flickr.photosets.getPhotos(user_id=user_id, photoset_id=photoset_id)
@@ -96,6 +104,9 @@ def gallery(preprocessor, tag, markup):
     if matches['photos']:
         photo_names = set(i.lower() for i in eval(matches['photos']))
         photos = filter(lambda p: p['title'].strip().lower() in photo_names, photos)
+        if not photos:
+            raise ValueError(
+                'Can not find any photos with titles: {}'.format(matches['photos']))
 
     return create_html(flickr, photos)
 
